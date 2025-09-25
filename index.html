@@ -5,11 +5,11 @@
   <title>Agendamento - Barber Shop</title>
   <style>
     :root {
-      --azul: #1E3A8A;
-      --laranja: #F97316;
-      --fundo: #f0f2f5;
+      --preto: #000000;
+      --azul-bebe: #89CFF0;
+      --fundo: #121212;
       --branco: #ffffff;
-      --cinza: #555;
+      --cinza-claro: #ccc;
     }
 
     body {
@@ -17,11 +17,11 @@
       background-color: var(--fundo);
       margin: 0;
       padding: 0;
-      color: var(--cinza);
+      color: var(--branco);
     }
 
     header {
-      background: linear-gradient(90deg, var(--azul), var(--laranja));
+      background: linear-gradient(90deg, var(--preto), var(--azul-bebe));
       color: white;
       padding: 30px 20px;
       text-align: center;
@@ -43,14 +43,14 @@
     main {
       max-width: 750px;
       margin: 30px auto;
-      background: var(--branco);
+      background: #1e1e1e;
       padding: 25px;
       border-radius: 20px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
     }
 
     h2 {
-      color: var(--azul);
+      color: var(--azul-bebe);
       margin-top: 0;
     }
 
@@ -58,7 +58,7 @@
       display: block;
       margin: 15px 0 6px;
       font-weight: bold;
-      color: var(--azul);
+      color: var(--azul-bebe);
     }
 
     select, input {
@@ -66,20 +66,21 @@
       padding: 12px;
       margin-bottom: 18px;
       border-radius: 10px;
-      border: 1px solid #ccc;
+      border: 1px solid var(--cinza-claro);
       font-size: 1rem;
       outline: none;
-      transition: 0.3s;
+      background-color: #222;
+      color: var(--branco);
     }
 
     select:focus, input:focus {
-      border-color: var(--laranja);
-      box-shadow: 0 0 5px rgba(249, 115, 22, 0.6);
+      border-color: var(--azul-bebe);
+      box-shadow: 0 0 5px rgba(137, 207, 240, 0.6);
     }
 
     button {
-      background: var(--laranja);
-      color: white;
+      background: var(--azul-bebe);
+      color: var(--preto);
       border: none;
       padding: 14px;
       width: 100%;
@@ -91,7 +92,7 @@
     }
 
     button:hover {
-      background: #ea580c;
+      background: #70b7d9;
       transform: scale(1.02);
     }
 
@@ -100,12 +101,12 @@
     }
 
     .agendamento-item {
-      background: var(--azul);
+      background: var(--preto);
       color: white;
       padding: 16px;
       margin: 12px 0;
       border-radius: 12px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.3);
       transition: 0.3s;
     }
 
@@ -115,7 +116,7 @@
 
     .agendamento-item strong {
       font-size: 1.1rem;
-      color: var(--laranja);
+      color: var(--azul-bebe);
     }
 
     footer {
@@ -123,7 +124,7 @@
       padding: 20px;
       margin-top: 40px;
       font-size: 0.9rem;
-      color: #777;
+      color: #aaa;
     }
   </style>
 </head>
@@ -142,9 +143,12 @@
       <label for="servico">Serviço:</label>
       <select id="servico" required>
         <option value="">Selecione um serviço</option>
-        <option value="Corte de cabelo - R$30">Corte de cabelo - R$30</option>
-        <option value="Barba - R$20">Barba - R$20</option>
-        <option value="Corte + Barba - R$45">Corte + Barba - R$45</option>
+        <option value="Corte de cabelo - R$20">Corte de cabelo - R$20</option>
+        <option value="Barba - R$15">Barba - R$15</option>
+        <option value="Sobrancelha - R$5">Sobrancelha - R$5</option>
+        <option value="Corte + Barba - R$35">Corte + Barba - R$35</option>
+        <option value="Corte + Barba + Sobrancelha - R$40">Corte + Barba + Sobrancelha - R$40</option>
+        <option value="Barba + Sobrancelha - R$20">Barba + Sobrancelha - R$20</option>
       </select>
 
       <label for="data">Data:</label>
@@ -172,7 +176,6 @@
     const horaSelect = document.getElementById("hora");
     const dataInput = document.getElementById("data");
 
-    // Gerar horários de 9h até 18h
     function gerarHorarios() {
       horaSelect.innerHTML = '<option value="">Selecione um horário</option>';
       for (let h = 9; h <= 18; h++) {
@@ -202,7 +205,6 @@
       });
     }
 
-    // Bloquear horários já agendados na data escolhida
     dataInput.addEventListener("change", () => {
       gerarHorarios();
       const agendamentos = JSON.parse(localStorage.getItem("agendamentos")) || [];
@@ -228,7 +230,6 @@
 
       const agendamentos = JSON.parse(localStorage.getItem("agendamentos")) || [];
 
-      // Verificar se horário já está ocupado
       const conflito = agendamentos.some(a => a.data === data && a.hora === hora);
       if (conflito) {
         alert("⚠ Este horário já foi agendado. Escolha outro.");
@@ -244,7 +245,6 @@
       alert("✅ Agendamento realizado com sucesso!");
     });
 
-    // Inicialização
     gerarHorarios();
     carregarAgendamentos();
   </script>
